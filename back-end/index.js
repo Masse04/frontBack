@@ -19,11 +19,6 @@ app.listen(3002,()=> console.log('server is running on port 3002...')) ;
 app.get('/listenTask',(req,res) => {
     res.send(list)
 })
-app.post('/updateTask',(req,res) => {
-    const tache = req.body
-    list.push(tache);
-    res.send(list);
-})
 app.get('/filterTask',(req,res) => {
     const data = req.query.task ;
     list1 = list.filter(el => el.task.includes(data)) ;
@@ -33,4 +28,14 @@ app.get('/userTask/:user',(req,res) => {
     const data = req.params.user
     const list1 = list.filter(el => el.user === data)
     res.send(list1)
+})
+app.post('/updateTask',(req,res) => {
+    const tache = req.body ;
+    list.push(tache);
+    res.send(list);
+})
+app.delete('/deleteTask/:task',(req,res) => {
+    const data = req.params.task
+    list = list.filter(el => el.task !== data) 
+    res.send(list)
 })

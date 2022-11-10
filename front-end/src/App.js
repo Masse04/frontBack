@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
-import { getTasks,addTasks } from './Redux/Reducer/Reducer';
+import nTask from './Class/Class';
+import { getTasks,addTasks, delTasks } from './Redux/Reducer/Reducer';
 
 function App() {
+  const [Task,setTask] = useState(new nTask());
   const dispatch = useDispatch() ;
   useEffect(() => {
     dispatch(getTasks())
@@ -12,12 +14,18 @@ function App() {
   console.log(Tasks)
   return (
     <div className="App">
+      <input type = 'text' placeholder = 'tache' onChange = { (e) => {setTask({...Task,task : e.target.value})}}/>
+      <button onClick={ () => dispatch(addTasks({task : Task}))}>addTasks</button>
+
       {
         Tasks.map(el => (
-          <h5>{el.task}</h5>
+          <div>
+            <h5>{el.task}</h5>
+            <button onClick={ () => dispatch(delTasks({task : el.task}))}>delete</button>
+          </div>
         ))
       }
-      <button onClick={ () => dispatch(addTasks())}>addTasks</button>
+      
     </div>
   );
 }
